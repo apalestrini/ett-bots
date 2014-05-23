@@ -34,7 +34,7 @@ restore_data(){
 
 mount_partitions(){
 
-  IMAGES_POINT="/home/rdisk/home/partimage"
+  IMAGES_POINT="/home/rdisk/home/partimag"
 
   mkdir -p /home/rdisk/
   mount /dev/${ROOT_DISK}4 /home/rdisk/
@@ -47,12 +47,12 @@ mount_partitions(){
 }
 
 copy_img_gnu(){
- rsync -ah --progress ${IMAGES_SOURCE}${GNU_IMG_NAME}
+ rsync -ah --progress ${IMAGES_SOURCE}${GNU_IMG_NAME} /home/partimag
  echo_ok "GNU image copied" 
 }
 
 copy_img_win(){
-  rsync -ah --progress ${IMAGES_SOURCE}${WIN_IMG_NAME}
+  rsync -ah --progress ${IMAGES_SOURCE}${WIN_IMG_NAME} /home/partimag
  echo_ok "WIN image copied"
 }
 
