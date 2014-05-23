@@ -19,7 +19,7 @@ LIB_PATH=$(dirname $0)/lib/
 # define the log
 mkdir -p "/var/log/ett_bot"
 NOW=$(date +"%Y%m%d")
-LOGS="/var/log/ett_bot/$NOW.log"
+LOGS="/var/log/ett_bot/cloner_$NOW.log"
 
 log(){
   echo $@ >> $LOGS

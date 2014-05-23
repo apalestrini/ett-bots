@@ -43,6 +43,16 @@ calculate_partition(){
   fi
 }
 
+create_table(){
+  
+  if !(parted_mktable "$DISK_FULLNAME")
+  then
+    return 1
+  fi
+
+  echo_ok "Partition table created on $DISK_FULLNAME"
+}
+
 create_partitions(){
  local dsize
  local p

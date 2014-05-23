@@ -2,43 +2,7 @@
 
 . $(dirname $0)/partition.sh
 
-create_table(){
-  
-  if !(parted_mktable "$DISK_FULLNAME")
-  then
-    return 1
-  fi
-
-  echo_ok "Partition table created on $DISK_FULLNAME"
-}
-
-restore_recu(){
- echo_ok "Recovery partition restored"
-}
-
-restore_data(){
- echo_ok "Data partition restored"
-}
-
-mount_swap(){
- echo_ok "SWAP mounted"
-}
-
-copy_img_gnu(){
- echo_ok "GNU image copied"
-}
-
-copy_img_win(){
- echo_ok "WIN image copied"
-}
-
-restore_gnu(){
- echo_ok "GNU image restored"
-}
-
-restore_win(){
- echo_ok "WIN image restored"
-}
+. $(dirname $0)/restore.sh
 
 # execute each operations
 
@@ -49,7 +13,7 @@ execute() {
   for t in $*
   do
     case $t in
-      "CREATE_TABLE"|"CREATE_PARTITIONS"|"RESTORE_RECU"|"RESTORE_DATA"|"MOUNT_SWAP"|"COPY_IMG_GNU"|"COPY_IMG_WIN"|"RESTORE_GNU"|"RESTORE_WIN")
+      "CREATE_TABLE"|"CREATE_PARTITIONS"|"RESTORE_RECU"|"RESTORE_DATA"|"MOUNT"|"COPY_IMG_GNU"|"COPY_IMG_WIN"|"RESTORE_GNU"|"RESTORE_WIN")
       ;;
       *)
       echo_error "Unknown task $t"
@@ -57,6 +21,13 @@ execute() {
       ;;
     esac
   done
+
+  # init the drbl
+  if !(restore_init)
+  then
+    echo_error "Trying to initialize the drbl"
+    exit 1
+  fi
 
   for t in $*
   do
@@ -89,10 +60,10 @@ execute() {
           exit 1
         fi
       ;;
-      "MOUNT_SWAP")
-        if !(mount_swap)
+      "MOUNT")
+        if !(mount_partitions)
         then
-          echo_error "Mounting SWAP"
+          echo_error "Mounting Partitions"
           exit 1
         fi
       ;;
