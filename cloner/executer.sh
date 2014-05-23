@@ -1,53 +1,43 @@
 #!/bin/bash
 
-# D_SIZE=`hd_size "$DISK"`
-# echo `convert_bytes_gb $D_SIZE`
-# RAM_SIZE=`ram_size`
-# echo `convert_kb_gb $RAM_SIZE`
+. $(dirname $0)/partition.sh
 
 create_table(){
-  echo_ok "Partition table created on $DISK_FULLNAME"
-  return 0
-}
+  
+  if !(parted_mktable "$DISK_FULLNAME")
+  then
+    return 1
+  fi
 
-create_partitions(){
- echo_ok "Partitions created on $DISK_FULLNAME"
- return 0
+  echo_ok "Partition table created on $DISK_FULLNAME"
 }
 
 restore_recu(){
  echo_ok "Recovery partition restored"
- return 0
 }
 
 restore_data(){
  echo_ok "Data partition restored"
- return 0
 }
 
 mount_swap(){
  echo_ok "SWAP mounted"
- return 0
 }
 
 copy_img_gnu(){
  echo_ok "GNU image copied"
- return 0
 }
 
 copy_img_win(){
  echo_ok "WIN image copied"
- return 0
 }
 
 restore_gnu(){
  echo_ok "GNU image restored"
- return 0
 }
 
 restore_win(){
  echo_ok "WIN image restored"
- return 0
 }
 
 # execute each operations
@@ -136,6 +126,4 @@ execute() {
       ;;
     esac
   done
-
-  return 0
 }

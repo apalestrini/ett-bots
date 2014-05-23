@@ -8,3 +8,5 @@ fi
 . $LIB_PATH/utils.sh
 
 . $LIB_PATH/hard.sh
+
+. $LIB_PATH/parted.sh
